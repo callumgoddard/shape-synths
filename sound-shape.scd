@@ -12,4 +12,15 @@ SynthDef(\rectSound, {
 	signal = Pan2.ar(signal, panning);
 	Out.ar(out,signal);
 }).store;
+
+SynthDef(\circSound, {
+	arg out=0, freq=440, pwm=0.5, panning=0, amp=0.5;
+
+	var signal;
+
+	signal = Pulse.ar(freq, pwm, amp);
+	signal = Pan2.ar(signal, panning);
+	Out.ar(out,signal);
+}).store;
+
 )
