@@ -48,7 +48,7 @@ class Shape {
   void display(){
      
     // check is mouse of over the shape
-    if(mouseOverShape){
+    if(mouseOverShape()){
       
       // mouse is over the shape so it is highlighted
       stroke(255);      
@@ -64,6 +64,7 @@ class Shape {
     if(sWidth == 0 && sHeight == 0){
           // no shape drawn and display boolean updated
           displayShape = false;
+          drawShape(); 
         }else{
           // shape is draw and display boolean updated
          displayShape = true;
@@ -120,8 +121,177 @@ class Shape {
     return mouseOverShape;
    }
   
+   void resize(){
     
+    //only resize in mouse is over the shape.
+    if(mouseOverShape == true){
+         
+      // Prevents a new rectangle being drawn when 
+      // the mouse is over the rectangle.
+      if (startShape == true){
+        
+       // update the new mouse Possition
+       arrayCopy(getMouseCoords(), changingCoords);
+        
+       // Update the shape parameters
+       updateShapeParams();
+        
+          
+      } else {
+        
+        // Part of the rectangle has been selected
+        // test to find out what part to control
+        // the type of manipulation that is to be performed.
+        
+        if(mouseOverShape == true && topSelected == false && bottomSelected == false 
+            && leftSelected == false && rightSelected == false){
+              
+              // no edge or corner has been selected
+              // move the rectangle.
+              //topX = mouseX - mouseOffSetX;
+              //topY = mouseY - mouseOffSetY;
+              
+              int tempTopX = topX+mouseX-pmouseX;
+              int tempTopY = topY+mouseY-pmouseY;
+              int bottomX = topX+sWidth+mouseX-pmouseX;
+              int bottomY = topY+sHeight+mouseY-pmouseY;
+              
+              // stops the shape moveing out of the window.
+              if(tempTopX < 0){
+                tempTopX = 0;
+                bottomX = tempTopX+sWidth;
+              }
+              
+              if(tempTopY < 0){
+                tempTopY = 0;
+                bottomY = tempTopY+sHeight;
+              }
+              
+              if(bottomX > windowSizeX){
+                bottomX = windowSizeX;
+                tempTopX = bottomX-sWidth;
+              }
+              
+              if(bottomY > windowSizeY){
+                bottomY = windowSizeY;
+                tempTopY = bottomY-sHeight;
+              }
+                        
+              constantCoords[0] = tempTopX;
+              constantCoords[1] = tempTopY;
+              changingCoords[0] = bottomX;
+              changingCoords[1] = bottomY;
+          
+              updateShapeParams();
+
+              // Calculate the center point of the rectangle
+              //centerX = topX + sWidth/2;
+              //centerY = topY + sHeight/2;
+
+              
+            }else{
+              // An Edge of Corner has been selected
     
+                  if(topSelected){
+                   
+                      if(leftSelected){                 
+                        // Top left corner is selected
+                        // update changing coordinates
+                        updateCoords();
+                        // Update Shape Parameters
+                        updateShapeParams();
+
+                      }else if(rightSelected){
+                        // Top Right corner is selected
+                        // update changing coordinates
+                        updateCoords();
+                        // Update Shape Parameters
+                        updateShapeParams();
+                        
+                      }else{
+                        // Top Right edge is selected
+                        // update changing coordinates
+                        updateYCoord();
+                        // Update Shape Parameters
+                        updateShapeParams();                        
+                      }
+                    
+                  }else if(bottomSelected){
+                    
+                      if(leftSelected){
+                        // Bottom left corner is selected
+                        // update changing coordinates
+                        updateCoords();
+                        // Update Shape Parameters
+                        updateShapeParams();
+                        
+                      }else if(rightSelected){
+                        // Bottom right corner is Selected 
+                        // update changing coordinates
+                        updateCoords();
+                        // Update Shape Parameters
+                        updateShapeParams();
+                        
+                      }else{
+                        // Bottom edge is selected
+                        // update changing coordinates
+                        updateYCoord();
+                        // Update Shape Parameters
+                        updateShapeParams();                      
+                      }
+                    
+                  } else if(leftSelected){
+                      // left edge is selected
+                      // update changing coordinates
+                      updateXCoord();
+                      // Update Shape Parameters
+                      updateShapeParams();
+                      
+                  } else if(rightSelected){
+                      // Right Edge is selected
+                      // update changing coordinates
+                      updateXCoord();
+                      // Update Shape Parameters
+                      updateShapeParams();
+                  }
+              
+            }
+    
+      }
+    }
+  } 
+   
+     void unselectShape() {
+    
+       // when shape is unselected
+       // if width and/or height is negative - update the values,
+       // so that topX and topY are always the top left corner.
+       if(sWidth < 0){
+         topX = topX+sWidth;
+         sWidth = -sWidth;
+       }   
+       if(sHeight < 0){
+           topY = topY+sHeight;
+           sHeight = -sHeight;
+       } 
+       
+       //unselects the edges
+       topSelected = false;
+       bottomSelected = false;
+       leftSelected = false;
+       rightSelected = false;
+       
+       startShape = false;
+        
+       // area calculated
+       sArea = sWidth*sHeight;
+        
+       // selection areas calculated as a
+       // percentage of the edge length
+       wEdgeArea = (float(sWidth)/100)*10;
+       hEdgeArea = (float(sHeight)/100)*10;
+  }
+  
    void updateCoords(){
 
           // update changing coordinates

@@ -7,7 +7,7 @@ int sizeY = 500;
 int selectedShape;
 boolean shapeSelected=false;
 
-SoundShape[] shapes = new SoundShape[10]; // make an array of soundShapes
+Rectangle[] shapes = new Rectangle[10]; // make an array of soundShapes
 
 void setup(){
   int sizeX = displayWidth;
@@ -16,7 +16,7 @@ void setup(){
   
   // initialise each soundshape with a for loop
     for(int i=0; i < shapes.length; i++){ // initialise each soundshape with a for loop
-    shapes[i] = new SoundShape(sizeX,sizeY);
+    shapes[i] = new Rectangle(sizeX,sizeY);
   }
   
 }
