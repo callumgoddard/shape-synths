@@ -38,6 +38,7 @@ class Shape {
   boolean shapeTooSmall;
   int windowSizeX;
   int windowSizeY;
+  Synth synth;
 
   Shape(int windowWidth, int windowHeight){
     
@@ -376,6 +377,11 @@ class Shape {
           } else{
             changingCoords[1] = constantCoords[1]+mouseOffSetY+constantOffset[1];
           } 
+  }
+  
+    
+  void stop() {
+       synth.free();
   }
   
 }

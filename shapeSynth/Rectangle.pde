@@ -1,6 +1,6 @@
 class Rectangle extends Shape {
   
-   Synth synth;
+//   Synth synth;
     
    Rectangle(int wW, int wH){
      //updates the super class constructor 
@@ -44,7 +44,7 @@ class Rectangle extends Shape {
         return mouseOverShape; 
    }
   
-    boolean selected(){
+    boolean shapeSelected(){
     
       // checks if the mouse is over the box
       // if it is, checks what part of the shape is clicked
@@ -292,10 +292,5 @@ class Rectangle extends Shape {
        synth.set("pwm", pwm);
        synth.set("panning",panning);
   }
-  
-  void stop() {
-       synth.free();
-  }
-
   
 }

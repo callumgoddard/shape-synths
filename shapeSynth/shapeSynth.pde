@@ -5,7 +5,7 @@ import netP5.*;
 int sizeX = 500;
 int sizeY = 500;
 int selectedShape;
-boolean shapeSelected=false;
+boolean shapeIsSelected=false;
 
 Rectangle[] shapes = new Rectangle[10]; // make an array of soundShapes
 
@@ -41,7 +41,7 @@ void mousePressed(){
   // selects shapes in decending order
   // so the most recent one is selected first.
   for(int i=shapes.length-1; i>=0; i--){
-    if(shapes[i].selected()){
+    if(shapes[i].shapeSelected()){
       // shape is selected
       // checks for a double click event
       if (mouseEvent.getClickCount()==2){
@@ -49,15 +49,15 @@ void mousePressed(){
         shapes[i].startShape();
        } else {
          // if not select the shape
-         shapes[i].selected();
+         shapes[i].shapeSelected();
        }
       selectedShape = i;
-      shapeSelected = true;
+      shapeIsSelected = true;
       break;
     }
   } 
   
-  if(shapeSelected == false){
+  if(shapeIsSelected == false){
     // no shape has been selected
     for(int i=0; i < shapes.length; i++){
       if(shapes[i].displayShape == false){
@@ -85,7 +85,7 @@ void mouseReleased(){
     shapes[i].unselectShape();
     println(i + " is unselected");
   }
-  shapeSelected = false;
+  shapeIsSelected = false;
 }
 
 void exit(){

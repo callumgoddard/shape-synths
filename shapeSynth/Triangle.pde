@@ -1,9 +1,9 @@
-class Circle extends Shape{
+class Triangle extends Shape{
   
   Synth synth;
   
   // constructor
-  Circle(int wW, int wH){
+  Triangle(int wW, int wH){
      //updates the super class constructor 
      super(wW, wH); 
       
@@ -22,12 +22,12 @@ class Circle extends Shape{
    
    boolean mouseOverShape(){
      
-      return mouseOverShape;
+     return mouseOverShape;
    }
    
    boolean shapeSelected(){
     
-      return shapeSelected; 
+    return shapeSelected;
    }
    
    void updateSynth(){
