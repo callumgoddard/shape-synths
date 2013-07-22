@@ -31,7 +31,11 @@ void setup(){
   
   // creates and empty array
   rectangles = new ArrayList<Rectangle>();
-  //Rectangle rectangle  = new Rectangle(displayWidth,displayHeight);
+  
+  // makes a rectangle to initialise the OSC conection
+  // temp fix for a bug that delayed sounds when making the first shape.
+  Rectangle rectangle  = new Rectangle(displayWidth,displayHeight);
+
   
 }
 

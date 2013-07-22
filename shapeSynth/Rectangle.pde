@@ -263,15 +263,30 @@ class Rectangle extends Shape {
        // but using 100 to make max freq = 2500hz
        
        sArea = sWidth*sHeight;
-       freq = (windowSizeX*windowSizeY-sArea)/4000;
+       freq = (windowSizeX*windowSizeY-sArea)/9000;
+       
+       println("freq =" + freq);
       
        // PWM should be determined by the ratio of the shape, compared to the square it could make.
+       /*
+       if(sWidth == sHeight){
+         
+         pwm = 0.5;
+         
+       } else {
+       
+       float largerShape = max(sHeight, sWidth) * max(sHeight, sWidth);
+       float smallerShape = max(sHeight, sWidth) * max(sHeight, sWidth);
+       pwm = smallerShape/largerShape;
+       
+       }
+       */
        if(sHeight > sWidth){
          
            float largerShape = float(sHeight)*float(sHeight);
            float smallerShape = float(sArea);
            
-           pwm = smallerShape/largerShape;
+           pwm = (smallerShape/largerShape)/2;
            
        } 
        if (sWidth > sHeight){
@@ -279,7 +294,7 @@ class Rectangle extends Shape {
            float largerShape = float(sWidth)*float(sWidth);
            float smallerShape = float(sArea);
            
-           pwm = smallerShape/largerShape;   
+           pwm = (smallerShape/largerShape)/2;   
        }
       
        if(sHeight == sWidth){
@@ -287,11 +302,12 @@ class Rectangle extends Shape {
        }
       
        //println("pwm = " + pwm);
+       
       
        // panning value.
        // calculated by finding position of the shapes center
        // relative to the window's width.
-       panning = (((float(centerX)/float(windowSizeX))-0.5)*2);
+       panning = float(centerX)/float(windowSizeX);
       
        // update the synth values
        synth.set("freq", freq);
