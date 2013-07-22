@@ -20,13 +20,19 @@ class Rectangle extends Shape {
       synth.create();
    }
    
+   // draw function to draw the correct shape
+   // also controls sound.
    void drawShape(){
-     if(displayShape){     
-     synth.set("amp",0.1);
-     rect(topX, topY, sWidth, sHeight);
-     } else {
-       synth.set("amp",0);
-     }
+       // if shape should be drawn it is
+       // volume of sound is increased.
+       if(displayShape){     
+       synth.set("amp",0.1);
+       rect(topX, topY, sWidth, sHeight);
+       
+       } else {
+         // shape is not drawn and volume of shape is set to zero
+         synth.set("amp",0);
+       }
    }
      
     

@@ -94,7 +94,7 @@ class Shape {
         // nothing is selected boolean states updated to
         // reflect this
         mouseOverShape=false;
-        shapeSelected = false;
+        shapeSelected = true;
         topSelected = false;
         bottomSelected = false;
         leftSelected = false;
@@ -124,8 +124,8 @@ class Shape {
   
    void resize(){
     
-    //only resize in mouse is over the shape.
-    if(mouseOverShape == true){
+    //only resize if the shape has been selected.
+    if(shapeSelected == true){
          
       // Prevents a new rectangle being drawn when 
       // the mouse is over the rectangle.
@@ -283,6 +283,8 @@ class Shape {
        rightSelected = false;
        
        startShape = false;
+       
+       shapeSelected = false;
         
        // area calculated
        sArea = sWidth*sHeight;
