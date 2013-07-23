@@ -1,6 +1,5 @@
 class Rectangle extends Shape {
-  
-//   Synth synth;
+ 
     
    Rectangle(int wW, int wH){
      //updates the super class constructor 
@@ -263,7 +262,7 @@ class Rectangle extends Shape {
        // but using 100 to make max freq = 2500hz
        
        sArea = sWidth*sHeight;
-       freq = (windowSizeX*windowSizeY-sArea)/9000;
+       freq = ((float) (windowSizeX*windowSizeY-sArea))/4000.00;
        
        println("freq =" + freq);
       

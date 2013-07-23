@@ -29,6 +29,7 @@ class Shape {
   float panning;
   boolean mouseOverShape = false;
   boolean displayShape = true;
+  boolean highlightShape = false;
   boolean shapeSelected;
   boolean topSelected;
   boolean bottomSelected;
@@ -52,14 +53,17 @@ class Shape {
     if(mouseOverShape()){
       
       // mouse is over the shape so it is highlighted
-      stroke(255);      
+      stroke(255);
+      //fill(48,139,206, 80);   
+      
     } else{
       
       // mouse is not over the shape so it is not highlighted
-      stroke(153); 
+      stroke(48,139,230); 
+      fill(48,139,206, 35);
     }
     
-    fill(153);
+    
    
     // prevent a shape being drawn that is too small to select
     if(sWidth == 0 && sHeight == 0){
@@ -291,8 +295,11 @@ class Shape {
         
        // selection areas calculated as a
        // percentage of the edge length
-       wEdgeArea = (float(sWidth)/100)*10;
-       hEdgeArea = (float(sHeight)/100)*10;
+       // wEdgeArea = (float(sWidth)/100)*10;
+       // hEdgeArea = (float(sHeight)/100)*10;
+       
+       wEdgeArea = 5;
+       hEdgeArea = 5;
   }
   
    void updateCoords(){
