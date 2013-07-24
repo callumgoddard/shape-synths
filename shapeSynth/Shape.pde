@@ -50,7 +50,7 @@ class Shape {
   void display(){
      
     // check is mouse of over the shape
-    if(mouseOverShape()){
+    if(shapeSelected){
       
       // mouse is over the shape so it is highlighted
       stroke(255);
@@ -148,7 +148,7 @@ class Shape {
         // test to find out what part to control
         // the type of manipulation that is to be performed.
         
-        if(mouseOverShape == true && topSelected == false && bottomSelected == false 
+        if(shapeSelected == true && topSelected == false && bottomSelected == false 
             && leftSelected == false && rightSelected == false){
               
               // no edge or corner has been selected

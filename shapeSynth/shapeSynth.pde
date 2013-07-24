@@ -27,8 +27,13 @@ void mouseDragged(){
 
 void mouseReleased(){
    world.unselectAll();
+   //if(world.getRectSelected);
 }
 
+void mouseMoved(){
+  world.unselectAll();
+  world.rectSelect(); 
+}
 
 void keyTyped(){
    if(int(key) == 127) world.clear();

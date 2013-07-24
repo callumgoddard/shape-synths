@@ -1,6 +1,6 @@
 class World {
   
-  int selectedRect; // int to track which rectangle in the array is selected
+  int selectedRectID; // int to track which rectangle in the array is selected
   boolean rectSelected = false; // variable to track is a rectangle is selected
   
   // Code for a dynamic number of shapes
@@ -22,8 +22,15 @@ class World {
     // Iterate through the array of rectangles
     // displaying each one.
     for(int i=rectangles.size()-1; i>=0;i--){
-      Rectangle rectangle = rectangles.get(i);
+     rectangle = rectangles.get(i);
       rectangle.display();
+    }
+    
+    // redraws the selected rectangle so that
+    // and GUI updates appear correctly.
+    if(rectSelected){
+     rectangle = rectangles.get(selectedRectID);
+     rectangle.display();
     }
     
   }
@@ -67,7 +74,7 @@ class World {
            rectangle.shapeSelected();
            rectangles.set(i, rectangle);
          }
-        selectedRect = i;
+        selectedRectID = i;
         rectSelected = true; // Flag updated to stop a new shape beign drawn if one is selected.
         break;
       }
@@ -81,18 +88,18 @@ class World {
       Rectangle rectangle  = new Rectangle(displayWidth,displayHeight);
       rectangle.startShape();
       rectangles.add(rectangle);
-      selectedRect = rectangles.size()-1;
+      selectedRectID = rectangles.size()-1;
   }
   
   void resizeSelectedRect(){
     // Get the rectangle that is to be resized
     // resize it and update the values
-    Rectangle rectangle = rectangles.get(selectedRect);
+    Rectangle rectangle = rectangles.get(selectedRectID);
     rectangle.resize();
     rectangle.updateSynth();
     
     // update the value in the ArrayList
-    rectangles.set(selectedRect, rectangle);
+    rectangles.set(selectedRectID, rectangle);
   }
   
   void unselectAll(){
@@ -120,6 +127,10 @@ class World {
 
   boolean getRectSelected(){
     return rectSelected;
+  }
+  
+ int getselectedRectID(){
+    return selectedRectID;
   }
 }
  
