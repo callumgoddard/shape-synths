@@ -1,65 +1,136 @@
-import supercollider.*;
-import oscP5.*;
-import netP5.*;
-
-World world; // Make the world
-
-void setup() {
-
-  // Set window size to be the full size of the screen.
-  //int sizeX = displayWidth;
-  //int sizeY = displayHeight;
+class World {
   
-  int sizeX = 500;
-  int sizeY = 500;
-  size(sizeX, sizeY);
-  world = new World(); // make new world.
+  int selectedRectID; // int to track which rectangle in the array is selected
+  boolean rectSelected = false; // variable to track is a rectangle is selected
+  
+  // Code for a dynamic number of shapes
+  ArrayList<Rectangle> rectangles;
+  Rectangle rectangle;
+  
+  World(){
+    
+    // Makes new array to keep the rectanlges.
+    rectangles = new ArrayList<Rectangle>();
+    
+    // makes a rectangle class for individual manipulaition of rectangles
+    rectangle  = new Rectangle(displayWidth,displayHeight);
+    
+  }
+  
+  void draw(){
+    
+    // Iterate through the array of rectangles
+    // displaying each one.
+    for(int i=rectangles.size()-1; i>=0;i--){
+     rectangle = rectangles.get(i);
+      rectangle.display();
+    }
+    
+    // redraws the selected rectangle so that
+    // and GUI updates appear correctly.
+    if(rectSelected){
+     rectangle = rectangles.get(selectedRectID);
+     rectangle.display();
+    }
+    
+  }
+  
+  void clear(){
+    // Clears all the Rectangles.
+    // Iterates backwards through the array
+    // stoping the sound then removing the rectangle
+    // from the array
+    for(int i=rectangles.size()-1; i>=0;i--){
+      Rectangle rectangle = rectangles.get(i);
+      rectangle.stop();
+      rectangles.set(i, rectangle);
+      rectangles.remove(i);
+    }  
+  }
+  
+  void rectSelect(){
+    
+    // check if array is empty, if it is add the first shape.
+    if(rectangles.isEmpty()){
+      Rectangle rectangle  = new Rectangle(displayWidth,displayHeight);
+      rectangles.add(rectangle);
+    }
+      
+    // Most recently created rectangle
+    // is tested to see if it has been selected
+    // if it has - a double click event is checked for
+    for(int i=rectangles.size()-1; i>=0; i--){
+      
+      rectangle = rectangles.get(i);
+       
+      // if the selected shape has been double clicked
+      // it is started again
+      // otherwise the shape is selected.
+      if(rectangle.shapeSelected()){
+        if (mouseEvent.getClickCount()==2){
+          rectangle.startShape();
+          rectangles.set(i, rectangle);         
+         } else {
+           rectangle.shapeSelected();
+           rectangles.set(i, rectangle);
+         }
+        selectedRectID = i;
+        rectSelected = true; // Flag updated to stop a new shape beign drawn if one is selected.
+        break;
+      }
+    }   
+  }
+  
+  void makeRect(){
+      // no shape has been selected
+      // Start a new rectangle and
+      // add it to the rectangles array.
+      Rectangle rectangle  = new Rectangle(displayWidth,displayHeight);
+      rectangle.startShape();
+      rectangles.add(rectangle);
+      selectedRectID = rectangles.size()-1;
+  }
+  
+  void resizeSelectedRect(){
+    // Get the rectangle that is to be resized
+    // resize it and update the values
+    Rectangle rectangle = rectangles.get(selectedRectID);
+    rectangle.resize();
+    rectangle.updateSynth();
+    
+    // update the value in the ArrayList
+    rectangles.set(selectedRectID, rectangle);
+  }
+  
+  void unselectAll(){
+      // shapes are unselected
+      for(int i=rectangles.size()-1; i>=0;i--){
+        Rectangle rectangle = rectangles.get(i);
+        
+        rectangle.unselectShape();
+        
+        // test to see if shape should be removed or not
+            if(rectangle.displayShape == false){
+              // remove rectangle.
+              rectangle.stop();
+              rectangles.set(i, rectangle);
+              rectangles.remove(i);
+              
+            } else {
+              //update rectangle
+              rectangles.set(i, rectangle);
+            
+            }
+      }
+      rectSelected = false;
+  }
+
+  boolean getRectSelected(){
+    return rectSelected;
+  }
+  
+ int getselectedRectID(){
+    return selectedRectID;
+  }
 }
-
-void draw() {
-  background(33);
-  world.draw();
-}
-
-void mousePressed() {
-  // on mouse click try and select a rectangle.
-  world.rectSelect();
-
-  // if no rectangle was selected make a new rectangle
-  if (!world.getRectSelected()) world.makeRect();
-}
-
-void mouseDragged() {
-  // resize the rectangle when the mouse is dragged.
-  world.resizeSelectedRect();
-}
-
-void mouseReleased() {
-  // when the mouse is released no rectangles will be selected
-  // thus unselected them all.
-  world.unselectAll();
-  //if(world.getRectSelected);
-}
-
-void mouseMoved() {
-
-  // each time the mouse is moved all rectangles are unselected to
-  // prevent a selection bug - ensuing that the most recent rectangle is selected.
-  world.unselectAll();
-
-  // selected a rectangle - this caused rectangles in which the mouse is currently hovering over
-  // to be highlighted.
-  world.rectSelect();
-}
-
-void keyTyped() {
-
-  // clears all rectangles.
-  if (int(key) == 127) world.clear();
-}
-
-void exit() {
-  world.clear();
-  super.exit();
-}
-
+ 
